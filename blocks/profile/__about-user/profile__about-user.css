@@ -1,0 +1,17 @@
+.profile__about-user {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #FFF;
+}
+
+@media screen and (max-width: 900px) {
+  .profile__about-user {
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+  }
+}
