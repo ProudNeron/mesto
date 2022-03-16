@@ -14,7 +14,7 @@
   color: #FFF;
 }
 
-@media screen and (max-width: 506px) {
+@media screen and (max-width: 560px) {
   .popup__save-btn {
     width: 238px;
     height: 46px;

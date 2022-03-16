@@ -5,18 +5,33 @@ const saveBtn = popup.querySelector('.popup__save-btn');
 let userInput = popup.querySelectorAll('.popup__form-item');
 let userInfo = [document.querySelector('.profile__user-name'), document.querySelector('.profile__about-user')];
 
-function openPopupHandler() {
+
+function openPopup() {
   popup.classList.add('popup_opened');
+}
+
+function closePopup() {
+  popup.classList.remove('popup_opened');
+}
+
+function openPopupHandler() {
+  openPopup();
+  for (let i=0;i<userInput.length;++i)
+  {
+    userInput[i].value = userInfo[i].textContent;
+  }
   return;
 }
 
-function closePopupHandler() {
-  popup.classList.remove('popup_opened');
-  for (let i=0;i<userInput.length;++i)
+function closePopupHandler(evt) {
+  if (evt.target === closedBtn)
   {
-    userInput[i].value = "";
+    closePopup();
   }
-  return;
+  if (evt.target === evt.currentTarget)
+  {
+    closePopup();
+  }
 }
 
 function editProfileHandler() {
@@ -25,10 +40,10 @@ function editProfileHandler() {
     userInfo[i].textContent = userInput[i].value;
     userInput[i].value = "";
   }
-  closePopupHandler();
+  closePopup();
   return;
 }
 
+popup.addEventListener('click', closePopupHandler);
 editBtn.addEventListener('click', openPopupHandler);
-closedBtn.addEventListener('click', closePopupHandler);
 saveBtn.addEventListener('click', editProfileHandler);
