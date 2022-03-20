@@ -11,13 +11,19 @@
   position: absolute;
   top: -40px;
   right: -40px;
+  cursor: pointer;
+  transition: opacity 0.4s cubic-bezier(.61,.13,.24,.76) 0s;
+}
+
+.popup__closed-btn:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 560px) {
   .popup__closed-btn {
-    background-image: url('../../../images/popup-close-icon-2.svg');
     width: 20px;
     height: 20px;
+    background-size: 20px 20px;
     top: -36px;
     right: 0;
   }

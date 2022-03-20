@@ -10,21 +10,17 @@
 <body>
 <div class="page">
   <header class="header">
-    <img src="./images/logo.svg" alt="лого в шапке" class="header__logo">
+    <a class="header__logo"></a>
   </header>
   <main class="content">
     <section class="profile">
-      <div class="profile__container">
-        <img src="./images/profile-image.jpg" alt="аватарка" class="profile__image">
-        <div class="profile__user-info">
-          <h1 class="profile__user-name">
-            Жак-Ив Кусто
-          </h1>
-          <p class="profile__about-user">
-            Исследователь океана
-          </p>
+      <img src="./images/profile-image.jpg" alt="аватарка" class="profile__image">
+      <div class="profile__user-info">
+        <div class="profile__flex-row">
+          <h1 class="profile__user-name">Жак-Ив Кусто</h1>
           <button type="button" aria-label="редактировать профиль" class="profile__edit-button"></button>
         </div>
+        <p class="profile__about-user">Исследователь океана</p>
       </div>
       <button type="button" aria-label="добавить" class="profile__add-button"></button>
     </section>
@@ -36,7 +32,7 @@
             <h2 class="card__title">
               Карачаевск
             </h2>
-            <button class="card__like-button card__like-button_active"></button>
+            <button type="button" aria-label="Нравится" class="card__like-button card__like-button_active"></button>
           </div>
         </li>
         <li class="card">
@@ -45,7 +41,7 @@
             <h2 class="card__title">
               Гора Эльбрус
             </h2>
-            <button class="card__like-button"></button>
+            <button type="button" aria-label="Нравится" class="card__like-button"></button>
           </div>
         </li>
         <li class="card">
@@ -54,7 +50,7 @@
             <h2 class="card__title">
               Домбай
             </h2>
-            <button class="card__like-button"></button>
+            <button type="button" aria-label="Нравится" class="card__like-button"></button>
           </div>
         </li>
         <li class="card">
@@ -63,7 +59,7 @@
             <h2 class="card__title">
               Гора Эльбрус
             </h2>
-            <button class="card__like-button"></button>
+            <button type="button" aria-label="Нравится" class="card__like-button"></button>
           </div>
         </li>
         <li class="card">
@@ -72,7 +68,7 @@
             <h2 class="card__title">
               Домбай
             </h2>
-            <button class="card__like-button"></button>
+            <button type="button" aria-label="Нравится" class="card__like-button"></button>
           </div>
         </li>
         <li class="card">
@@ -81,7 +77,7 @@
             <h2 class="card__title">
               Карачаево-Черкессия
             </h2>
-            <button class="card__like-button"></button>
+            <button type="button" aria-label="Нравится" class="card__like-button"></button>
           </div>
         </li>
       </ul>
@@ -92,24 +88,20 @@
   </footer>
 </div>
 <div class="popup">
-  <form action="submit" class="popup__container">
+  <div  class="popup__container">
     <h2 class="popup__title">
       Редактировать профиль
     </h2>
-    <fieldset class="popup__input-container">
-      <label>
-        <input type="text" class="popup__form-item">
-      </label>
-      <label>
-        <input type="text" class="popup__form-item">
-      </label>
-    </fieldset>
-    <button type="button" aria-label="Сохранить" class="popup__save-btn">
-      Сохранить
-    </button>
+    <form action="submit" name="profile-form" class="popup__form">
+      <input type="text" name="user-name" class="popup__form-item text-input text-input_user-name">
+      <input type="text" name="user-info" class="popup__form-item text-input text-input_user-about">
+      <button type="submit" aria-label="Сохранить" class="popup__save-btn">
+        Сохранить
+      </button>
+    </form>
     <button type="button" aria-label="Закрыть попап" class="popup__closed-btn"></button>
-  </form>
+  </div>
 </div>
-<script src="./scripts/script.js"></script>
+<script src="./scripts/index.js"></script>
 </body>
 </html>
