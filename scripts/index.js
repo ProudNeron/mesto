@@ -5,8 +5,8 @@ const editBtn = document.querySelector('.profile__edit-button');
 
 let userName = document.querySelector('.profile__user-name');
 let aboutUser = document.querySelector('.profile__about-user');
-let inputName = popup.querySelector('.text-input_user_name');
-let inputAboutUser = popup.querySelector('.text-input_user_about');
+let inputName = popup.querySelector('.popup__form-item_user_name');
+let inputAboutUser = popup.querySelector('.popup__form-item_user_about');
 
 function openPopup() {
   inputName.value = userName.textContent;
