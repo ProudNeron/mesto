@@ -1,6 +1,6 @@
 .popup__form-item {
   width: 100%;
-  height: 32px;
+  min-height: 32px;
   margin: 0 0 26px 0;
   padding: 0;
 }
