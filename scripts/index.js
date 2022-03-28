@@ -36,6 +36,10 @@ const popupAdd = document.querySelector('.popup_btn_add');
 const formAdd = popupAdd.querySelector('.popup__form');
 const addBtn = document.querySelector('.profile__add-button');
 
+const popupImage = document.querySelector('.popup_img');
+const figure = popupImage.querySelector('.popup__image');
+const figureCaption = popupImage.querySelector('.popup__image-caption');
+
 const userName = document.querySelector('.profile__user-name');
 const aboutUser = document.querySelector('.profile__about-user');
 const inputName = popupEdit.querySelector('.popup__form-item_user_name');
@@ -86,27 +90,10 @@ function addCard(placeName, placeUrl) {
   newCardLikeBtn.addEventListener('click', toggleLike);
   newCardDeleteBtn.addEventListener('click', removeCard);
   newCardImage.addEventListener('click', function() {
-    popupAdd.insertAdjacentHTML('afterend' ,`<div class="popup popup_img">
-    <figure class="popup__image-container">
-      <button type="button" aria-label="Закрыть" class="popup__closed-btn"></button>
-      <img class="popup__image">
-      <figcaption class="popup__image-caption"></figcaption>
-    </figure>
-  </div>`);
-    const newPopup = document.querySelector('.popup_img');
-    const newPopupImage = newPopup.querySelector('.popup__image');
-    const newPopupCaption = newPopup.querySelector('.popup__image-caption');
-    newPopupImage.src = Link;
-    newPopupImage.alt = Name;
-    newPopupCaption.textContent = Name;
-    newPopup.addEventListener('click', function(evt) {
-      const closedBtn = evt.currentTarget.querySelector('.popup__closed-btn');
-      if (evt.currentTarget === evt.target || evt.target === closedBtn)
-      {
-        closePopup(evt.currentTarget);
-      }
-    });
-    openPopup(newPopup);
+    figure.src = Link;
+    figure.alt = Name;
+    figureCaption.textContent = Name;
+    openPopup(popupImage);
   });
   cardList.prepend(newCard);
 }
@@ -145,3 +132,11 @@ popupAdd.addEventListener('click', function(evt) {
   }
 });
 formAdd.addEventListener('submit', handleAddCard);
+
+popupImage.addEventListener('click', function(evt) {
+  const closedBtn = evt.currentTarget.querySelector('.popup__closed-btn');
+  if (evt.currentTarget === evt.target || evt.target === closedBtn)
+  {
+    closePopup(evt.currentTarget);
+  }
+});
