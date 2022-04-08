@@ -56,9 +56,25 @@ function closePopup(activePopup) {
   activePopup.classList.remove('popup_opened');
 }
 
+function closeByEscButton(evt) {
+  if (evt.key === 'Escape') {
+    const activePopup = document.querySelector('.popup_opened');
+    removeBtnListenrToDoc();
+    closePopup(activePopup);
+  }
+}
+
+function addBtnListenerToDoc() {
+  document.addEventListener('keydown', closeByEscButton);
+}
+
+function removeBtnListenrToDoc() {
+  document.removeEventListener('keydown', closeByEscButton);
+}
+
 function handleClosePopup(evt) {
-  if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__closed-btn'))
-  {
+  if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__closed-btn')) {
+    removeBtnListenrToDoc();
     closePopup(evt.currentTarget);
   }
 }
@@ -67,12 +83,12 @@ function handleEditProfile(evt) {
   evt.preventDefault();
   userName.textContent = inputName.value;
   aboutUser.textContent = inputAboutUser.value;
+  removeBtnListenrToDoc();
   closePopup(popupEdit);
 }
 
 function toggleLike(evt) {
-  if (evt.currentTarget === evt.target)
-  {
+  if (evt.currentTarget === evt.target) {
     evt.currentTarget.classList.toggle('card__like-button_active');
   }
 }
@@ -92,6 +108,7 @@ function createCard(name, url) {
     figure.src = url;
     figure.alt = name;
     figureCaption.textContent = name;
+    addBtnListenerToDoc();
     openPopup(popupImage);
   });
   return newCard;
@@ -111,20 +128,26 @@ function handleAddCard(evt) {
   evt.preventDefault();
   addCard(inputNameOfImage.value, inputUrl.value);
   formAdd.reset();
+  toggleButtonState([inputNameOfImage, inputUrl], evt.submitter, config.inactiveButtonClass);
+  removeBtnListenrToDoc();
   closePopup(popupAdd);
 }
 
 initialCards.forEach( item => addCard(item.name, item.link));
 
-editBtn.addEventListener('click', function () {
+editBtn.addEventListener('click', () => {
   inputName.value = userName.textContent;
   inputAboutUser.value = aboutUser.textContent;
+  toggleButtonState([inputName, inputAboutUser], formEdit.querySelector(`.${config.submitButtonSelector}`), config.inactiveButtonClass);
+  addBtnListenerToDoc();
   openPopup(popupEdit);
 });
 popupEdit.addEventListener('mousedown', handleClosePopup);
 formEdit.addEventListener('submit', handleEditProfile);
 
-addBtn.addEventListener('click', () => openPopup(popupAdd));
+addBtn.addEventListener('click', () => {
+  addBtnListenerToDoc();
+  openPopup(popupAdd)});
 popupAdd.addEventListener('mousedown', handleClosePopup);
 formAdd.addEventListener('submit', handleAddCard);
 
