@@ -10,7 +10,6 @@ function setEventListeners(form, {inputSelector, submitButtonSelector, inactiveB
 
   toggleButtonState(inputList, btn, inactiveButtonClass);
   inputList.forEach(i => i.addEventListener('input', () => {
-    inputList.forEach(i => console.log(i.validity));
     checkInputValidity(form, i, rest);
     toggleButtonState(inputList, btn, inactiveButtonClass);
   }));
@@ -43,7 +42,6 @@ function toggleButtonState(inputList, btn, inactiveButtonClass) {
 }
 
 function checkInputValidity(form, i, {inputErrorClass, errorClass}) {
-  inputList.forEach(i => console.log(i.validity.valid));
   if (!i.validity.valid) {
     showInputError(form, i, {inputErrorClass, errorClass});
   }
