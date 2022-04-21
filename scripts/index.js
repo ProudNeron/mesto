@@ -75,8 +75,8 @@ const addCard = (placeName, placeUrl) => {
 const handleAddCard = (evt) => {
   evt.preventDefault();
   addCard(inputNameOfImage.value, inputUrl.value);
-  addValidation.toggleButtonState([inputNameOfImage, inputUrl], evt.submitter, config.inactiveButtonClass);
   formAdd.reset();
+  addValidation.toggleButtonState([inputNameOfImage, inputUrl], evt.submitter, config.inactiveButtonClass);
   closePopup(popupAdd);
 }
 
