@@ -1,5 +1,8 @@
+import {config, initialCards} from './consts.js';
+import {Card} from './Card.js';
+import {FormValidator} from "./FormValidator.js";
+
 const cardList = document.querySelector('.cards__container');
-const cardTemplate = document.querySelector('.card-template').content;
 
 const popupEdit = document.querySelector('.popup_btn_edit');
 const formEdit = popupEdit.querySelector('.popup__form');
@@ -21,99 +24,93 @@ const inputAboutUser = formEdit.querySelector('.popup__form-item_user_about');
 const inputNameOfImage = formAdd.querySelector('.popup__form-item_image_name');
 const inputUrl = formAdd.querySelector('.popup__form-item_image_url');
 
-function openPopup(popup) {
+const addBtnListenerToDoc = () => {
+  document.addEventListener('keydown', closeByEscButton);
+}
+const removeBtnListenerToDoc = () => {document.removeEventListener('keydown', closeByEscButton);
+}
+
+const openPopup = (popup) => {
   popup.classList.add('popup_opened');
   addBtnListenerToDoc();
 }
 
-function closePopup(activePopup) {
+const closePopup = (activePopup) => {
   activePopup.classList.remove('popup_opened');
-  removeBtnListenrToDoc();
+  removeBtnListenerToDoc();
 }
 
-function closeByEscButton(evt) {
+const openImagePopup = (name, url) => {
+  figure.src = url;
+  figure.alt = name;
+  figureCaption.textContent = name;
+  addBtnListenerToDoc();
+  openPopup(popupImage);
+}
+
+const closeByEscButton = (evt) => {
   if (evt.key === 'Escape') {
     const activePopup = document.querySelector('.popup_opened');
     closePopup(activePopup);
   }
 }
 
-function addBtnListenerToDoc() {
-  document.addEventListener('keydown', closeByEscButton);
-}
-
-function removeBtnListenrToDoc() {
-  document.removeEventListener('keydown', closeByEscButton);
-}
-
-function handleClosePopup(evt) {
+const handleClosePopup = (evt) => {
   if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__closed-btn')) {
     closePopup(evt.currentTarget);
   }
 }
 
-function handleEditProfile(evt) {
+const addCard = (placeName, placeUrl) => {
+  const newCard = new Card(
+    {cardName: placeName, cardImageUrl: placeUrl, nameSelector: '.card__title', imageSelector: '.card__image'},
+    {deleteBtn: '.card__delete-btn', likeBtn: '.card__like-button'},
+    {likeBtn: 'card__like-button_active'},
+    openImagePopup,
+    '.card');
+
+  cardList.prepend(newCard.getCard());
+}
+
+const handleAddCard = (evt) => {
+  evt.preventDefault();
+  addCard(inputNameOfImage.value, inputUrl.value);
+  addValidation.toggleButtonState([inputNameOfImage, inputUrl], evt.submitter, config.inactiveButtonClass);
+  formAdd.reset();
+  closePopup(popupAdd);
+}
+
+const handleEditProfile = (evt) => {
   evt.preventDefault();
   userName.textContent = inputName.value;
   aboutUser.textContent = inputAboutUser.value;
   closePopup(popupEdit);
 }
 
-function toggleLike(evt) {
-  evt.currentTarget.classList.toggle('card__like-button_active');
-}
-
-function createCard({name, url}) {
-  const newCard = cardTemplate.cloneNode(true);
-  const newCardImage = newCard.querySelector('.card__image');
-  const newCardTitle = newCard.querySelector('.card__title');
-  const newCardLikeBtn = newCard.querySelector('.card__like-button');
-  const newCardDeleteBtn = newCard.querySelector('.card__delete-btn');
-  newCardTitle.textContent = name;
-  newCardImage.src = url;
-  newCardImage.alt = name;
-  newCardLikeBtn.addEventListener('click', toggleLike);
-  newCardDeleteBtn.addEventListener('click', removeCard);
-  newCardImage.addEventListener('click', function() {
-    figure.src = url;
-    figure.alt = name;
-    figureCaption.textContent = name;
-    addBtnListenerToDoc();
-    openPopup(popupImage);
-  });
-  return newCard;
-}
-
-function removeCard(evt) {
-  evt.currentTarget.closest('.card').remove();
-}
-
-function addCard(placeName, placeUrl) {
-  const newCard = createCard({name: placeName, url: placeUrl});
-  cardList.prepend(newCard);
-}
-
-function handleAddCard(evt) {
-  evt.preventDefault();
-  addCard(inputNameOfImage.value, inputUrl.value);
-  formAdd.reset();
-  toggleButtonState([inputNameOfImage, inputUrl], evt.submitter, config.inactiveButtonClass);
-  closePopup(popupAdd);
-}
-initialCards.forEach(card => addCard(card.name, card.link));
+initialCards.forEach( card => {
+  addCard(card.name, card.link);
+});
 
 editBtn.addEventListener('click', () => {
   inputName.value = userName.textContent;
   inputAboutUser.value = aboutUser.textContent;
-  toggleButtonState([inputName, inputAboutUser], formEdit.querySelector(`.${config.submitButtonSelector}`), config.inactiveButtonClass);
+  editValidation.toggleButtonState(
+    [inputName, inputAboutUser],
+    formEdit.querySelector(config.submitButtonSelector),
+    config.inactiveButtonClass);
   openPopup(popupEdit);
 });
+
 popupEdit.addEventListener('mousedown', handleClosePopup);
 formEdit.addEventListener('submit', handleEditProfile);
-
-addBtn.addEventListener('click', () => {
-  openPopup(popupAdd)});
+addBtn.addEventListener('click', () => {openPopup(popupAdd)});
 popupAdd.addEventListener('mousedown', handleClosePopup);
 formAdd.addEventListener('submit', handleAddCard);
-
 popupImage.addEventListener('mousedown', handleClosePopup);
+
+const editValidation = new FormValidator(config, formEdit);
+editValidation.enableValidation();
+
+const addValidation = new FormValidator(config, formAdd);
+addValidation.enableValidation();
+

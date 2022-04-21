@@ -1,3 +1,11 @@
+const config = {
+  inputSelector: '.popup__form-item',
+  submitButtonSelector: '.popup__submit-btn',
+  inactiveButtonClass: 'popup__submit-btn_disabled',
+  inputErrorClass: 'popup__form-item_error',
+  errorClass: 'popup__input-error_visible'
+};
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -24,3 +32,5 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+export {initialCards, config};
