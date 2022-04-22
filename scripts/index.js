@@ -61,7 +61,7 @@ const handleClosePopup = (evt) => {
   }
 }
 
-const addCard = (placeName, placeUrl) => {
+const createCard = (placeName, placeUrl) => {
   const newCard = new Card(
     {cardName: placeName, cardImageUrl: placeUrl, nameSelector: '.card__title', imageSelector: '.card__image'},
     {deleteBtn: '.card__delete-btn', likeBtn: '.card__like-button'},
@@ -69,14 +69,18 @@ const addCard = (placeName, placeUrl) => {
     openImagePopup,
     '.card');
 
-  cardList.prepend(newCard.getCard());
+  return newCard.getCard();
+}
+
+const addCard = (placeName, placeUrl) => {
+  cardList.prepend(createCard(placeName, placeUrl));
 }
 
 const handleAddCard = (evt) => {
   evt.preventDefault();
   addCard(inputNameOfImage.value, inputUrl.value);
   formAdd.reset();
-  addValidation.toggleButtonState([inputNameOfImage, inputUrl], evt.submitter, config.inactiveButtonClass);
+  addValidation.disableSubmitBtn([inputNameOfImage, inputUrl], config.inactiveButtonClass);
   closePopup(popupAdd);
 }
 
@@ -94,10 +98,7 @@ initialCards.forEach( card => {
 editBtn.addEventListener('click', () => {
   inputName.value = userName.textContent;
   inputAboutUser.value = aboutUser.textContent;
-  editValidation.toggleButtonState(
-    [inputName, inputAboutUser],
-    formEdit.querySelector(config.submitButtonSelector),
-    config.inactiveButtonClass);
+  editValidation.enableSubmitBtn([inputName, inputAboutUser], config.inactiveButtonClass);
   openPopup(popupEdit);
 });
 

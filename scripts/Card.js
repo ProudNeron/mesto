@@ -13,7 +13,7 @@ class Card {
   }
 
   _removeCard() {
-    this._deleteBtn.closest(this._templateSelector).remove();
+    this._element.remove();
   }
 
   _fillCard() {
