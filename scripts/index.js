@@ -44,7 +44,6 @@ const openImagePopup = (name, url) => {
   figure.src = url;
   figure.alt = name;
   figureCaption.textContent = name;
-  addBtnListenerToDoc();
   openPopup(popupImage);
 }
 
