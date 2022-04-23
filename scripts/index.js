@@ -80,7 +80,7 @@ const handleAddCard = (evt) => {
   evt.preventDefault();
   addCard(inputNameOfImage.value, inputUrl.value);
   formAdd.reset();
-  addValidation.disableSubmitBtn([inputNameOfImage, inputUrl], config.inactiveButtonClass);
+  addValidation.disableSubmitBtn();
   closePopup(popupAdd);
 }
 
@@ -98,7 +98,7 @@ initialCards.forEach( card => {
 editBtn.addEventListener('click', () => {
   inputName.value = userName.textContent;
   inputAboutUser.value = aboutUser.textContent;
-  editValidation.enableSubmitBtn([inputName, inputAboutUser], config.inactiveButtonClass);
+  editValidation.enableSubmitBtn();
   openPopup(popupEdit);
 });
 
