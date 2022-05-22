@@ -1,0 +1,40 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Одностраничный сайт с диалоговыми окнами для редактирования отображаемого профиля и добавления новых карточек, состоящих из фото и подписи(изменения пока не сохраняются).\r В вёрстке использован flex. Страница адаптивна в некоторой степени. JS код написан в ООП стиле.",
+  "scripts": {
+    "build": "rd /s /q dist && webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProudNeron/mesto.git"
+  },
+  "author": "Poleonny Nazar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProudNeron/mesto/issues"
+  },
+  "homepage": "https://github.com/ProudNeron/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
+    "autoprefixer": "^10.4.7",
+    "babel-loader": "^8.2.5",
+    "cli": "^1.0.1",
+    "css-loader": "^6.7.1",
+    "cssnano": "^5.1.9",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+  },
+  "brwserslist": "last 4 version",
+  "dependencies": {
+    "core-js": "^3.22.5"
+  }
+}
