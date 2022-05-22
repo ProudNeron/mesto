@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Одностраничный сайт с диалоговыми окнами для редактирования отображаемого профиля и добавления новых карточек, состоящих из фото и подписи(изменения пока не сохраняются).\r В вёрстке использован flex. Страница адаптивна в некоторой степени. JS код написан в ООП стиле.",
   "scripts": {
-    "build": "rd /s /q dist && webpack --mode production",
+    "build": "webpack --mode production",
     "dev": "webpack serve"
   },
   "repository": {
@@ -21,6 +21,7 @@
     "@babel/preset-env": "^7.18.0",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
     "cli": "^1.0.1",
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.9",
