@@ -1,11 +1,11 @@
-class Card {
-  constructor(data, btnSelectors, btnStyleModClasses, openPopup, templateSelector) {
+export default class Card {
+  constructor(data, btnSelectors, btnStyleModClasses, handleCardClick, templateSelector) {
     this._templateSelector = templateSelector;
     this._imageData = { url: data.cardImageUrl, selector: data.imageSelector};
     this._titleData = {name: data.cardName, selector: data.nameSelector};
     this._btnSelectors = {delete: btnSelectors.deleteBtn, like: btnSelectors.likeBtn};
     this._btnStyleModClasses = {activeLikeBtn: btnStyleModClasses.likeBtn};
-    this._openPopup = openPopup;
+    this._openPopup = handleCardClick;
   }
 
   _toggleLike() {
@@ -25,7 +25,9 @@ class Card {
   _setEventListeners() {
     this._likeBtn.addEventListener('click', this._toggleLike.bind(this));
     this._deleteBtn.addEventListener('click', this._removeCard.bind(this));
-    this._cardImage.addEventListener('click', () => {this._openPopup(this._titleData.name, this._imageData.url)});
+    this._cardImage.addEventListener('click', () => {
+      this._openPopup({name: this._titleData.name, about: this._imageData.url})
+    });
   }
 
   _getTemplate() {
@@ -48,6 +50,4 @@ class Card {
     return this._element;
   }
 }
-
-export {Card};
 

@@ -1,13 +1,13 @@
 class FormValidator {
-  constructor(config, form) {
+  constructor(config, {popupSelector, formSelector}) {
     this._config = {
       inputSelector: config.inputSelector,
       inactiveButtonClass: config.inactiveButtonClass,
       inputErrorClass: config.inputErrorClass,
       errorClass: config.errorClass
     };
-    this._submitBtn = form.querySelector(config.submitButtonSelector);
-    this._form = form;
+    this._form = document.querySelector(popupSelector).querySelector(formSelector);
+    this._submitBtn = this._form.querySelector(config.submitButtonSelector);
   }
 
   _setEventListeners({form, ...rest}) {
