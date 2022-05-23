@@ -23,7 +23,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._likeBtn.addEventListener('click', this._toggleLike.bind(this));
+    this._likeBtn.addEventListener('click', () => this._toggleLike());
     this._deleteBtn.addEventListener('click', this._removeCard.bind(this));
     this._cardImage.addEventListener('click', () => {
       this._openPopup({name: this._titleData.name, about: this._imageData.url})

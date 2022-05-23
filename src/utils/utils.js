@@ -1,5 +1,5 @@
 import Card from "../components/Card.js";
-import {editValidation, imagePopup} from "../scripts";
+import {editValidation, imagePopup} from "../pages";
 
 function renderer(dataCard) {
   const newCard = new Card(

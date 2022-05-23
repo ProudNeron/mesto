@@ -1,15 +1,16 @@
-import {initialCards, config} from "../utils/consts.js";
-import {openPopup, renderer} from "../utils/utils.js";
+import {initialCards, config, userName, userAbout} from "../utils/consts.js";
+import {renderer} from "../utils/utils.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import {FormValidator} from "../components/FormValidator.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 
-import '../pages/index.css';
+import './index.css';
 
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
+
 
 export const editValidation = new FormValidator(config,
   {popupSelector: '.popup_btn_edit', formSelector: '.popup__form'});
@@ -19,26 +20,14 @@ const addValidation = new FormValidator(config,
 export const userData = new UserInfo(
   {userNameSelector: '.profile__user-name', userAboutSelector: '.profile__about-user'});
 
-export const imagePopup = new PopupWithImage(
-  { popupSelector: '.popup_img',
-    closeBtn: 'popup__closed-btn',
-    openedPopup: 'popup_opened'},
-  { imgSelector: '.popup__image',
-    titleSelector: '.popup__image-caption'}
-);
+export const imagePopup = new PopupWithImage('.popup_img');
 
 const editedPopup = new PopupWithForm(
   { popupSelector: '.popup_btn_edit',
-    formSelector: '.popup__form',
-    closeBtn: 'popup__closed-btn',
-    openedPopup: 'popup_opened'},
-  (evt) => {
-    evt.preventDefault();
-    const inputValues = editedPopup._getInputValues();
+    formSubmit: (inputValues) => {
     userData.setUserInfo({userName: inputValues['user-name'], userAbout: inputValues['user-about']});
-    editedPopup.close();},
-   function () {openPopup(userData, editedPopup);}
-  );
+    editedPopup.close();}
+  });
 
 export const gallery =  new Section({ items: initialCards, renderer: renderer},
   '.cards__container');
@@ -46,29 +35,31 @@ export const gallery =  new Section({ items: initialCards, renderer: renderer},
 
 const addedPopup = new PopupWithForm(
   { popupSelector: '.popup_btn_add',
-    formSelector: '.popup__form',
-    closeBtn: 'popup__closed-btn',
-    openedPopup: 'popup_opened'},
-  (evt) => {
-    evt.preventDefault();
-    const inputValues = addedPopup._getInputValues();
+    formSubmit: (inputValues) => {
     renderer.call(gallery, {name: inputValues['place-name'], link: inputValues['place-url']});
     addValidation.disableSubmitBtn();
-    addedPopup.close();},
-  () => {}
-  );
+    addedPopup.close(); }
+  });
 
 gallery.renderItems();
+
+editedPopup.setEventListeners();
+addedPopup.setEventListeners();
 
 editValidation.enableValidation();
 addValidation.enableValidation();
 
 editBtn.addEventListener('mousedown', () => {
-  editedPopup.setEventListeners();
+  const data = userData.getUserInfo();
+
+  userName.value = data.userName;
+  userAbout.value = data.userAbout;
+
+  editValidation.enableValidation();
+
   editedPopup.open();
 });
 
 addBtn.addEventListener('mousedown', () => {
-  addedPopup.setEventListeners();
   addedPopup.open();
 });

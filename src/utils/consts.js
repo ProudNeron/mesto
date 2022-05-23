@@ -33,4 +33,7 @@ const initialCards = [
   }
 ];
 
-export {initialCards, config};
+const userName = document.querySelector('#user-name');
+const userAbout = document.querySelector('#user-about');
+
+export {initialCards, config, userName, userAbout};
