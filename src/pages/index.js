@@ -45,6 +45,7 @@ gallery.renderItems();
 
 editedPopup.setEventListeners();
 addedPopup.setEventListeners();
+imagePopup.setEventListeners();
 
 editValidation.enableValidation();
 addValidation.enableValidation();
