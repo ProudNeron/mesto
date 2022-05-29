@@ -1,4 +1,5 @@
 import Api from "../components/Api";
+import FormValidator from "../components/FormValidator";
 
 const config = {
   inputSelector: '.popup__form-item',
@@ -20,4 +21,12 @@ const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
 const editAvatarBtn = document.querySelector('.profile__change-avatar-button');
 
-export {config, userName, userAbout, api, editBtn, addBtn, editAvatarBtn};
+const editProfileDataValidation = new FormValidator(config,
+  {popupSelector: '.popup_type_edit-user-data', formSelector: '.popup__form'});
+const editProfileAvatarValidation = new FormValidator(config,
+  {popupSelector: '.popup_type_change-avatar', formSelector: '.popup__form'});
+const addValidation = new FormValidator(config,
+  {popupSelector: '.popup_type_add-card', formSelector: '.popup__form'});
+
+export {config, userName, userAbout, api, editBtn, addBtn, editAvatarBtn, editProfileDataValidation,
+  editProfileAvatarValidation, addValidation};

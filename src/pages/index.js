@@ -1,14 +1,18 @@
-import {config, userName, userAbout, api, editBtn, addBtn, editAvatarBtn} from "../utils/consts.js";
+import {config, userName, userAbout, api, editBtn, addBtn, editAvatarBtn,
+  editProfileAvatarValidation, addValidation, editProfileDataValidation} from "../utils/consts.js";
 import Card from "../components/Card.js"
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
-import FormValidator from "../components/FormValidator.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithSubmit from "../components/PopupWithSubmit.js";
 import {renderLoading} from "../utils/utils.js";
 
 import './index.css';
+
+editProfileDataValidation.enableValidation();
+editProfileAvatarValidation.enableValidation();
+addValidation.enableValidation();
 
 const userData = new UserInfo({
   userNameSelector: '.profile__user-name',
@@ -95,13 +99,6 @@ userProfile.then((profileData) => {
     gallery.addItem(cardElement);
   }
 
-  const editProfileDataValidation = new FormValidator(config,
-    {popupSelector: '.popup_type_edit-user-data', formSelector: '.popup__form'});
-  const editProfileAvatarValidation = new FormValidator(config,
-    {popupSelector: '.popup_type_change-avatar', formSelector: '.popup__form'});
-  const addValidation = new FormValidator(config,
-    {popupSelector: '.popup_type_add-card', formSelector: '.popup__form'});
-
   const editedAvatarPopup = new PopupWithForm(
     { popupSelector: '.popup_type_change-avatar',
       formSubmit: (inputValues) => {
@@ -110,8 +107,9 @@ userProfile.then((profileData) => {
           userData.setUserAvatar(data.avatar);
           editedAvatarPopup.close();
           editProfileAvatarValidation.disableSubmitBtn();
-        }).catch(err => alert(err)).finally(() => renderLoading(false));
-      }
+        }).catch(err => alert(err)).finally(() => editedAvatarPopup.renderLoading(false));
+      },
+      renderloading: renderLoading
     }
   );
   const editedPopup = new PopupWithForm(
@@ -121,8 +119,9 @@ userProfile.then((profileData) => {
           .then((data) => {
             userData.setUserInfo({userName: data.name, userAbout: data.about});
             editedPopup.close();
-          }).catch(err => alert(err)).finally(() => renderLoading(false));
-      }
+          }).catch(err => alert(err)).finally(() => editedPopup.renderLoading(false));
+      },
+      renderloading: renderLoading
     });
   const addedPopup = new PopupWithForm(
     { popupSelector: '.popup_type_add-card',
@@ -131,13 +130,10 @@ userProfile.then((profileData) => {
           renderer({name: card.name, link: card.link, likes: card.likes, cardId: card._id, owner: card.owner});
           addValidation.disableSubmitBtn();
           addedPopup.close();
-        }).catch(err => alert(err)).finally(() => renderLoading(false));
-    }
+        }).catch(err => alert(err)).finally(() => addedPopup.renderLoading(false));
+    },
+      renderloading: renderLoading
     });
-
-  editProfileDataValidation.enableValidation();
-  editProfileAvatarValidation.enableValidation();
-  addValidation.enableValidation();
 
   editedPopup.setEventListeners();
   editedAvatarPopup.setEventListeners();
