@@ -6,6 +6,10 @@
   border-radius: 50%;
 }
 
+.profile__image:hover {
+  opacity: .8;
+}
+
 @media screen and (max-width: 900px) {
   .profile__image {
     margin-top: 42px;

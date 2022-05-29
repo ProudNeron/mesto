@@ -1,7 +1,7 @@
 export default class Section {
   constructor({items, renderer}, containerSelector) {
     this._items = items;
-    this._renderer = (dataCard) => {renderer.call(this, dataCard)};
+    this._renderer = renderer.bind(this);
     this._containerSelector = containerSelector;
   }
 
