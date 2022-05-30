@@ -6,9 +6,9 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithSubmit from "../components/PopupWithSubmit.js";
 import Api from "../components/Api.js";
+import FormValidator from "../components/FormValidator";
 
 import './index.css';
-import FormValidator from "../components/FormValidator";
 
 const api = new Api({url: serverUrl, headers: {authorization: token, 'Content-type': 'application/json'}});
 
