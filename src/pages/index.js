@@ -1,14 +1,23 @@
-import {config, userName, userAbout, api, editBtn, addBtn, editAvatarBtn,
-  editProfileAvatarValidation, addValidation, editProfileDataValidation} from "../utils/consts.js";
+import {config, userName, userAbout, editBtn, addBtn, editAvatarBtn, serverUrl, token} from "../utils/consts.js";
 import Card from "../components/Card.js"
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithSubmit from "../components/PopupWithSubmit.js";
-import {renderLoading} from "../utils/utils.js";
+import Api from "../components/Api.js";
 
 import './index.css';
+import FormValidator from "../components/FormValidator";
+
+const api = new Api({url: serverUrl, headers: {authorization: token, 'Content-type': 'application/json'}});
+
+const editProfileDataValidation = new FormValidator(config,
+  {popupSelector: '.popup_type_edit-user-data', formSelector: '.popup__form'});
+const editProfileAvatarValidation = new FormValidator(config,
+  {popupSelector: '.popup_type_change-avatar', formSelector: '.popup__form'});
+const addValidation = new FormValidator(config,
+  {popupSelector: '.popup_type_add-card', formSelector: '.popup__form'});
 
 editProfileDataValidation.enableValidation();
 editProfileAvatarValidation.enableValidation();
@@ -25,8 +34,7 @@ const userProfile = api.getProfileData();
 userProfile.then((profileData) => {
   userData.userId  = profileData._id;
 
-  userData.setUserInfo({userName: profileData.name, userAbout: profileData.about});
-  userData.setUserAvatar(profileData.avatar);
+  userData.setUserInfo({userName: profileData.name, userAbout: profileData.about, userAvatar: profileData.avatar});
 
   const initialCards = api.getAllCards().then((dataCards) => {
     const cards = dataCards.map(card => {
@@ -104,12 +112,10 @@ userProfile.then((profileData) => {
       formSubmit: (inputValues) => {
         const link = inputValues['avatar-url'];
         api.patchProfileAvatar(link).then((data) => {
-          userData.setUserAvatar(data.avatar);
+          userData.setUserInfo({userName: data.name, userAbout: data.about, userAvatar: data.avatar});
           editedAvatarPopup.close();
-          editProfileAvatarValidation.disableSubmitBtn();
         }).catch(err => alert(err)).finally(() => editedAvatarPopup.renderLoading(false));
-      },
-      renderloading: renderLoading
+      }
     }
   );
   const editedPopup = new PopupWithForm(
@@ -117,22 +123,20 @@ userProfile.then((profileData) => {
       formSubmit: (inputValues) => {
         api.patchProfileData({name: inputValues['user-name'], about: inputValues['user-about']})
           .then((data) => {
-            userData.setUserInfo({userName: data.name, userAbout: data.about});
+            userData.setUserInfo({userName: data.name, userAbout: data.about, userAvatar: data.avatar});
             editedPopup.close();
           }).catch(err => alert(err)).finally(() => editedPopup.renderLoading(false));
-      },
-      renderloading: renderLoading
+      }
     });
+  editProfileDataValidation.enableSubmitBtn();
   const addedPopup = new PopupWithForm(
     { popupSelector: '.popup_type_add-card',
       formSubmit: (inputValues) => {
         api.postCard({name: inputValues['place-name'], link: inputValues['place-url']}).then((card) => {
           renderer({name: card.name, link: card.link, likes: card.likes, cardId: card._id, owner: card.owner});
-          addValidation.disableSubmitBtn();
           addedPopup.close();
         }).catch(err => alert(err)).finally(() => addedPopup.renderLoading(false));
-    },
-      renderloading: renderLoading
+    }
     });
 
   editedPopup.setEventListeners();
@@ -147,18 +151,16 @@ userProfile.then((profileData) => {
     userName.value = data.userName;
     userAbout.value = data.userAbout;
 
-    editProfileDataValidation.enableValidation();
-
     editedPopup.open();
   });
 
   editAvatarBtn.addEventListener('mousedown', () => {
-    editProfileAvatarValidation.enableValidation();
-
+    editProfileAvatarValidation.disableSubmitBtn();
     editedAvatarPopup.open();
   });
 
   addBtn.addEventListener('mousedown', () => {
+    addValidation.disableSubmitBtn();
     addedPopup.open();
   });
 

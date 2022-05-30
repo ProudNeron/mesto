@@ -22,8 +22,7 @@ export default class Api {
   postCard({name, link}) {
     return fetch(`${this._url}cards`, {
       method: 'POST',
-      headers: {authorization: this._headers.authorization,
-        'Content-type': 'application/json'},
+      headers: this._headers,
       body: JSON.stringify({name: name, link: link})
     }).then(res => this._checkServerResponse(res));
   }
@@ -45,8 +44,7 @@ export default class Api {
   patchProfileData({name, about}) {
     return fetch(`${this._url}users/me`, {
       method: 'PATCH',
-      headers: {authorization: this._headers.authorization,
-      'Content-type': 'application/json'},
+      headers: this._headers,
       body: JSON.stringify({name: name, about: about})
     }).then((res) => this._checkServerResponse(res));
   }
@@ -54,8 +52,7 @@ export default class Api {
   patchProfileAvatar(link) {
     return fetch(`${this._url}users/me/avatar`, {
       method: 'PATCH',
-      headers: {authorization: this._headers.authorization,
-        'Content-type': 'application/json'},
+      headers: this._headers,
       body: JSON.stringify({avatar: link})
     }).then((res) => this._checkServerResponse(res));
   }

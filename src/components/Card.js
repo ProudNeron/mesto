@@ -9,7 +9,11 @@ export default class Card {
     this.userId = data.userId;
     this.id = data.id;
 
-    this._removable = this._templateSelector == '.removable-card-template' ? true : false;
+    if (this.userId == this._data.owner._id) {
+      this._removable = true;
+    } else {
+      this._removable = false;
+    }
     this.isLiked = false;
     this._data.likes.forEach((item) => {
       if (item._id == this.userId) {
@@ -51,7 +55,7 @@ export default class Card {
   }
 
   setNumberOfLikes() {
-    this._element.querySelector('.card__like-counter').textContent = `${this._countLikes()}`;
+    this._likeCounter.textContent = `${this._countLikes()}`;
   }
 
   _toggleLike() {
@@ -93,6 +97,7 @@ export default class Card {
       this._deleteBtn = this._element.querySelector('.card__delete-btn');
     }
     this._likeBtn = this._element.querySelector('.card__like-button');
+    this._likeCounter = this._element.querySelector('.card__like-counter');
     this._cardImage = this._element.querySelector('.card__image');
     this._cardName = this._element.querySelector('.card__title');
 
